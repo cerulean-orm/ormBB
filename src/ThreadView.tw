@@ -1,0 +1,68 @@
+:: ThreadView 
+
+/* Pre-display */
+<<set _boardName to setup.board[$boardIndex].name>>
+<<set _threadName to setup.thread[$threadIndex].name>>
+
+/* Display */
+<div class='container'>
+  <div class = "top_box">
+    <h1>worm town- _boardName</h1>
+    <table>
+      <tr>
+        <td>welcome, <b>guest</b></td>
+        <td style="text-align:right"><<print new Date()>></td>
+      </tr>
+      <tr>
+        <td>
+          please log in - new registrations are currently closed.<br>
+          <<textbox "_username" "">> <<textbox "_password" "">> <<button [[login|passage()]]>><</button>><br>
+          login with username and password
+        </td>
+      </tr>        
+    </table>
+  </div>
+  
+  <div>[[worm town forums|Start]] > [[_boardName|BoardView]] ( moderators: 
+    <<for _modindex to 0; _modindex lt setup.board[$boardIndex].moderators.length; _modindex++>>
+      <<set _moderator to setup.board[$boardIndex].moderators[_modindex]>>
+       <<capture _moderator>>
+        [[_moderator|UserView][$userKey to _moderator]]
+       <</capture>>)
+    <</for>>
+  
+   > [[_threadName|ThreadView]]</div>
+  
+  <div>pages: [1]</div>
+  
+  <div class = "forum_box">
+    <table>
+      <tr>
+        <th>author</th>
+        <th>topic</th>
+      </tr>
+      <<for _index to 0; _index lt setup.post.length; _index++>>
+        <<if setup.post[_index].thread is $threadIndex>>
+          <tr>
+            <td style="width:10%">
+              <<set _user to setup.post[_index].author>>
+              <<capture _index>>
+                <b>[[_user|UserView][$userKey to setup.post[_index].author]]</b><br>
+              <</capture>>
+              [img[setup.user[_user].avatar]]
+            </td>
+            <td>
+              _threadName<br>
+              on <<print setup.post[_index].date>><hr>
+              <<print setup.post[_index].text>><hr>
+              <<print setup.user[_user].signature>>
+            </td>
+          </tr>
+        <</if>>
+      <</for>>
+    </table>
+  </div>
+  
+  <div>pages: [1]</div>
+</div>
+

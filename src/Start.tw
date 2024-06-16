@@ -1,0 +1,69 @@
+:: Start 
+
+/* Display */
+<div class='container'>
+  <div class = "top_box">
+    <h1>worm town</h1><hr>
+    <table>
+      <tr>
+        <td>welcome, <b>guest</b></td>
+        <td style="text-align:right"><<print new Date()>></td>
+      </tr>
+      <tr>
+        <td>
+          please log in - new registrations are currently closed.<br>
+          <<textbox "_username" "">> <<textbox "_password" "">> <<button [[login|passage()]]>><</button>><br>
+          login with username and password
+        </td>
+      </tr>        
+    </table>
+  </div>
+  
+  <div>[[worm town forums|Start]]</div>
+  
+  <div class = "forum_box">
+    <h2>worm town</h2>
+    <table>
+      <<for _index to 0; _index lt setup.board.length; _index++>>
+        <<set _boardName to setup.board[_index].name>>
+        <tr>
+          <td>no new posts</td>
+          <td>
+            <<capture _index>>
+              [[_boardName|BoardView][$boardIndex to _index]]<br>
+              <<print setup.board[_index].description>><br>
+              moderators: 
+                <<for _modindex to 0; _modindex lt setup.board[_index].moderators.length; _modindex++>>
+                  <<set _moderator to setup.board[_index].moderators[_modindex]>>
+                  <<capture _moderator>>
+                    [[_moderator|UserView][$userKey to _moderator]]
+                  <</capture>>
+                <</for>>
+            <</capture>>
+          </td>
+          <td><<print setup.thread.filter(x => x.board == setup.board[_index].id).length>> topics</td>
+          <td>
+            <<set _postIndex to setup.board[_index].lastpost>>
+            <<set _threadIndex to setup.post[_postIndex].thread>>
+            <b>last post</b> by <<print setup.post[_postIndex].author>> in <<print setup.thread[_threadIndex].name>><br>
+            on <<print setup.post[_postIndex].date>>
+          </td>
+        </tr>
+      <</for>>
+    </table>
+  </div>
+  
+  <div><br></div>
+  
+  <div class = "info_box">
+    <h2>worm town - info centre</h2>
+    <b>forum stats</b><br>
+      <<print setup.post.length>> posts in <<print setup.thread.length>> topics.
+      latest post: in "shutting down worm town" by orm (2 June 2024, 15:38:30 pm)<hr>
+    <b>users online</b><br>
+    1 guests, 0 users<br>
+    no users active in the past 15 minutes<br>
+    most online today: 0. most online ever: 2 (24 May 2024, 08:38:30)
+  </div>
+</div>
+

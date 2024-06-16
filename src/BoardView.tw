@@ -1,0 +1,67 @@
+:: BoardView 
+
+/* Pre-display */
+<<set _boardName to setup.board[$boardIndex].name>>
+<<set _currentDate to new Date()>>
+
+/* Display */
+<div class = "container">
+  <div class = "top_box">
+    <h1>worm town - _boardName</h1>
+    <table>
+      <tr>
+        <td>welcome, <b>guest</b></td>
+        <td style="text-align:right"><<print new Date()>></td>
+      </tr>
+      <tr>
+        <td>
+          please log in - new registrations are currently closed.<br>
+          <<textbox "_username" "">> <<textbox "_password" "">> <<button [[login|passage()]]>><</button>><br>
+          login with username and password
+        </td>
+      </tr>        
+    </table>
+  </div>
+  
+  <div>[[worm town forums|Start]] > [[_boardName|BoardView]] ( moderators: 
+    <<for _modindex to 0; _modindex lt setup.board[$boardIndex].moderators.length; _modindex++>>
+      <<set _moderator to setup.board[$boardIndex].moderators[_modindex]>>
+       <<capture _moderator>>
+        [[_moderator|UserView][$userKey to _moderator]]
+       <</capture>>)
+    <</for>>
+  </div>
+  
+  <div class = "forum_box">
+    <table>
+      <tr>
+        <th>subject</th>
+        <th>started by</th>
+        <th>replies</th>
+        <th>views</th>
+        <th>last post</th>
+      </tr>
+      <<for _index to 0; _index lt setup.thread.length; _index++>>
+        <<if setup.thread[_index].board is $boardIndex>>
+          <<set _threadName to setup.thread[_index].name>>
+          <tr>
+            <td>
+              <<capture _index>>
+                [[_threadName|ThreadView][$threadIndex to _index]]
+              <</capture>>
+            </td>
+            <td><<print setup.thread[_index].author>></td>
+            <td><<print setup.post.filter(x => x.thread == setup.thread[_index].id).length - 1>> replies</td>
+            <td>69 views</td>
+            <td>
+              <<set _postIndex to setup.thread[_index].lastpost>>
+              <<print setup.post[_postIndex].date>><br>
+              by <<print setup.post[_postIndex].author>>
+            </td>
+          </tr>
+        <</if>>
+      <</for>>
+    </table>
+  </div>
+</div>
+

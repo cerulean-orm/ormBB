@@ -1,0 +1,50 @@
+:: UserView 
+
+/* Pre-display */
+<<set _boardName to setup.board[$boardIndex].name>>
+<<set _threadName to setup.thread[$threadIndex].name>>
+<<set _userName to setup.user[$userKey].name>>
+
+/* Display */
+<div class='container'>
+  <div class = "top_box">
+    <h1>worm town</h1>
+    <table>
+      <tr>
+        <td>welcome, <b>guest</b></td>
+        <td style="text-align:right"><<print new Date()>></td>
+      </tr>
+      <tr>
+        <td>
+          please log in - new registrations are currently closed.<br>
+          <<textbox "_username" "">> <<textbox "_password" "">> <<button [[login|passage()]]>><</button>><br>
+          login with username and password
+        </td>
+      </tr>        
+    </table>
+  </div>
+  
+  <div>[[worm town forums|Start]] > [[_userName|UserView]]</div>
+  
+  <div class = "forum_box">
+    <table>
+      <tr>
+        <td style="width:10%">
+          <b>_userName</b><br>
+          [img[setup.user[$userKey].avatar]]
+        </td>
+        <td>
+          <b>posts:</b> <<print setup.post.filter(x => x.author == $userKey).length>><br>
+          <b>gender:</b> <<print setup.user[$userKey].gender>><br>
+          <b>age:</b> <<print setup.user[$userKey].age>><br>
+          <b>location:</b> <<print setup.user[$userKey].location>><hr>
+          <b>date registered:</b> <<print setup.user[$userKey].registered>><br>
+          <b>last active:</b> <<print setup.user[$userKey].lastactive>><hr>
+          <b>signature:</b> <<print setup.user[$userKey].signature>>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div>[[return|previous()]]</div>
